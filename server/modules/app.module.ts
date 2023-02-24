@@ -1,10 +1,9 @@
 import { ControllerBase } from '../common/controllerBase';
-import { HealthController } from './health/healthController';
+import { HealthController } from './health/health.controller';
 
 export class AppModule extends ControllerBase {
-  // poor man's dependency injection
-  static create() {
-    return new AppModule(HealthController.create());
+  static deps() {
+    return [HealthController];
   }
   constructor(private healthController: HealthController) {
     super('/api');

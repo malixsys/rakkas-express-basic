@@ -12,7 +12,7 @@ export abstract class ControllerBase {
 
   addControllers(...controllers: ControllerBase[]) {
     for (const controller of controllers) {
-      controller.attachTo(this._router);
+      controller?.attachTo(this._router);
     }
   }
 

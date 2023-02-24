@@ -1,14 +1,15 @@
 import { Router } from 'express';
 import { ControllerBase } from '../../common/controllerBase';
-import { HealthService } from './healthService';
+import { HealthService } from './health.service';
 
 export class HealthController extends ControllerBase {
-  static create() {
-    return new HealthController(HealthService.create());
+  static deps() {
+    return [HealthService];
   }
-  constructor(private countService: HealthService) {
+  constructor(private healthService: HealthService) {
     super('/health');
   }
+
   mapRoutes(r: Router) {
     r.get('/', (req, res) => {
       res.json(this.getBaseHealth());
@@ -16,6 +17,6 @@ export class HealthController extends ControllerBase {
   }
 
   private getBaseHealth() {
-    return { health: this.countService.getStart() };
+    return { health: this.healthService.getStart() };
   }
 }
