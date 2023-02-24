@@ -1,12 +1,5 @@
-import express from "express";
-import { createMiddleware } from "rakkasjs/node-adapter";
-import hattipHandler from "./entry-hattip";
-import {appModule} from "../server/app.module";
+import { createApp } from '../server/createApp';
 
-const app = express();
-
-app.use('/', appModule.router)
-
-app.use(createMiddleware(hattipHandler));
+const app = createApp();
 
 export default app;
