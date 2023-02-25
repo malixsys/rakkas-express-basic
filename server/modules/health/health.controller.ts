@@ -1,22 +1,22 @@
 import { Router } from 'express';
 import { ControllerBase } from '../../common/controllerBase';
 import { HealthService } from './health.service';
+import { Inject } from '../../common/Hydrate';
+import { LoggerService } from '../logger.service';
 
+@Inject([HealthService, LoggerService])
 export class HealthController extends ControllerBase {
-  static deps() {
-    return [HealthService];
-  }
-  constructor(private healthService: HealthService) {
+  constructor(private healthService: HealthService, private logger: LoggerService) {
     super('/health');
   }
 
   mapRoutes(r: Router) {
     r.get('/', (req, res) => {
-      res.json(this.getBaseHealth());
+      res.json(this.logger.log(this.getHealth()));
     });
   }
 
-  private getBaseHealth() {
+  private getHealth() {
     return { health: this.healthService.getStart() };
   }
 }
