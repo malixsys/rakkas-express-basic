@@ -2,15 +2,15 @@ import express from 'express';
 import { createMiddleware } from 'rakkasjs/node-adapter';
 import { AppModule } from './modules/app.module';
 import hattipHandler from '../src/entry-hattip';
-import { middleware } from './common/httpContext';
-import { Hydrate } from './common/Hydrate';
+import { hydrate, provide } from './common/Hydrate';
 
+const DB = { start: new Date() };
 export function createApp() {
   const app = express();
 
-  app.use(middleware);
+  app.use(provide({ DB }));
 
-  const appModule = Hydrate(AppModule);
+  const appModule = hydrate(AppModule);
   appModule.attachTo(app);
 
   app.use(createMiddleware(hattipHandler));
